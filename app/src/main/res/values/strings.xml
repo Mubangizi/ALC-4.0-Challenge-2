@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Travel Mantics</string>
+    <string name="description">Description</string>
+    <string name="price">Price</string>
+    <string name="title">Title</string>
+    <string name="save">Save</string>
+    <string name="delete">delete</string>
+</resources>
