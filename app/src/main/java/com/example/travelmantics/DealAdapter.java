@@ -3,6 +3,7 @@ package com.example.travelmantics;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -17,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -25,6 +28,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ChildEventListener childEventListener;
+    private ImageView imageView;
     private Context context;
 
     public DealAdapter(){
@@ -96,12 +100,14 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvdescription = itemView.findViewById(R.id.singlle_desc_textView);
             tvprice = itemView.findViewById(R.id.single_pricetextView);
             itemView.setOnClickListener(this);
+            imageView = itemView.findViewById(R.id.single_imageView);
 
         }
         public void bind(TravelDeal deal){
             tvTitle.setText(deal.getTitle());
             tvdescription.setText(deal.getDescription());
             tvprice.setText(deal.getPrice());
+            showimage(deal.getImageUrl());
         }
 
         @Override
@@ -111,8 +117,14 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             Intent intent  = new Intent(view.getContext(), DealActivity.class);
             intent.putExtra("Deal", selectedDeal);
             view.getContext().startActivity(intent);
+        }
 
-
+        private void showimage(String url) {
+            if(url != null && !url.isEmpty()){
+                Picasso.get()
+                        .load(url)
+                        .into(imageView);
+            }
         }
     }
 }
