@@ -57,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
-        if (isAdmin){
-            menu.findItem(R.id.action_insert_deal).setVisible(false);
-        }
+//        if (!isAdmin){
+//            menu.findItem(R.id.action_insert_deal).setVisible(false);
+//        }
 
         return true;
     }

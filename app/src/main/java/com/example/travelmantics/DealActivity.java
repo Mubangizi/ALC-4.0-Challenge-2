@@ -107,7 +107,21 @@ public class DealActivity extends AppCompatActivity {
             return;
         }
         databaseReference.child(deal.getId()).removeValue();
-        Toast.makeText(DealActivity.this, "Please save the deal before deleting", Toast.LENGTH_SHORT).show();
+        if(deal.getImageName() != null && deal.getImageName().isEmpty() == false){
+            StorageReference picref = FirebaseUtil.firebaseStorage.getReference().child(deal.getImageName());
+            picref.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(DealActivity.this, "Deal deleted", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    String error = e.getMessage();
+                   Toast.makeText(DealActivity.this, "Error: "+error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         sendToMain();
 
     }
@@ -133,6 +147,7 @@ public class DealActivity extends AppCompatActivity {
         titleEditText.setEnabled(false);
         descriptionEditText.setEnabled(false);
         priceEditText.setEnabled(false);
+        upload_btn.setVisibility(View.GONE);
     }
 
     @Override
@@ -158,7 +173,9 @@ public class DealActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         String downloadUri = task.getResult().toString();
+                        String imagepath = storageRef.getPath();
                         deal.setImageUrl(downloadUri);
+                        deal.setImageName(imagepath);
                         showImage(downloadUri);
                     } else {
                         String error  = task.getException().getMessage();
