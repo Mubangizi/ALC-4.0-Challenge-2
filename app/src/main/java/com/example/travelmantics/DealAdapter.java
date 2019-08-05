@@ -1,5 +1,6 @@
 package com.example.travelmantics;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -24,9 +25,10 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ChildEventListener childEventListener;
+    private Context context;
 
     public DealAdapter(){
-        FirebaseUtil.openFbReference("traveldeals");
+
         firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
         deals = FirebaseUtil.mDeals;
@@ -65,7 +67,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     @NonNull
     @Override
     public DealViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        Context context = viewGroup.getContext();
+        context = viewGroup.getContext();
         View itemView = LayoutInflater.from(context).inflate(R.layout.single_deal_layout, viewGroup, false);
         return  new DealViewHolder(itemView);
     }

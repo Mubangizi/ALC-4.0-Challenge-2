@@ -26,7 +26,7 @@ public class DealActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert);
-        FirebaseUtil.openFbReference("traveldeals");
+        FirebaseUtil.openFbReference("traveldeals", this);
         firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
         titleEditText = findViewById(R.id.text_title);
@@ -94,6 +94,16 @@ public class DealActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.save_menu, menu);
+        if(!FirebaseUtil.isAdmin){
+            menu.findItem(R.id.action_delete).setVisible(false);
+            menu.findItem(R.id.action_save).setVisible(false);
+            disableEditTexts();
+        }
         return true;
+    }
+    private void disableEditTexts(){
+        titleEditText.setEnabled(false);
+        descriptionEditText.setEnabled(false);
+        priceEditText.setEnabled(false);
     }
 }
